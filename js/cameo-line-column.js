@@ -30,7 +30,6 @@ class CameoLineColumn extends HTMLElement {
     let ary_keys = ary[0];
     let ary_values = ary[1];
     this.dic_meta = {};
-    console.log(ary_keys);
     ary_keys.forEach((str_key, i) => (this.dic_meta[str_key] = ary_values[i]));
   }
   async load_data_csv() {
