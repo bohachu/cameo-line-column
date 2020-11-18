@@ -1,3 +1,6 @@
+import dfjs from "https://jspm.dev/dataframe-js";
+var DataFrame = dfjs.DataFrame;
+
 function dynamicallyLoadScript(url) {
   var script = document.createElement("script");
   script.src = url;
@@ -25,34 +28,42 @@ class CameoLineColumn extends HTMLElement {
     this.chart_render();
     // this.original_render();
   }
-  async load_config_csv() {
-    let df = await dfjs.DataFrame.fromCSV(this.getAttribute("src"));
-    let ary = df.transpose().toArray();
-    let ary_keys = ary[0];
-    let ary_values = ary[1];
-    this.dic_config = {};
-    ary_keys.forEach(
-      (str_key, i) => (this.dic_config[str_key] = ary_values[i])
+  async load_meta_csv() {
+    console.log("001 " + this.getAttribute("src"));
+    let df = await DataFrame.fromCSV(
+      "https://brbl7.csb.app/data/cameo_line_column_meta.csv"
     );
+    console.log("002");
+    console.log(df);
+    let ary = df.transpose().toArray();
+    console.log("003");
+    let ary_keys = ary[0];
+    console.log("004");
+    let ary_values = ary[1];
+    console.log("005");
+    this.dic_meta = {};
+    console.log("006");
+    console.log(ary_keys);
+    ary_keys.forEach((str_key, i) => (this.dic_meta[str_key] = ary_values[i]));
   }
   async load_data_csv() {
-    let df = await dfjs.DataFrame.fromCSV(this.dic_config["資料檔案"]);
+    let df = await DataFrame.fromCSV(this.dic_meta["資料檔案"]);
     df = df.transpose();
     let ary = df.toArray();
     return ary;
   }
   async chart_render() {
-    await this.load_config_csv();
+    await this.load_meta_csv();
     let ary = await this.load_data_csv();
     let options = {
       series: [
         {
-          name: this.dic_config["Y軸左側名稱"],
+          name: this.dic_meta["Y軸左側名稱"],
           type: "column",
           data: ary[1]
         },
         {
-          name: this.dic_config["Y軸右側名稱"],
+          name: this.dic_meta["Y軸右側名稱"],
           type: "line",
           data: ary[2]
         }
@@ -65,7 +76,7 @@ class CameoLineColumn extends HTMLElement {
         width: [0, 4]
       },
       title: {
-        text: this.dic_config["標題名稱"]
+        text: this.dic_meta["標題名稱"]
       },
       dataLabels: {
         enabled: true,
@@ -78,13 +89,13 @@ class CameoLineColumn extends HTMLElement {
       yaxis: [
         {
           title: {
-            text: this.dic_config["Y軸左側名稱"]
+            text: this.dic_meta["Y軸左側名稱"]
           }
         },
         {
           opposite: true,
           title: {
-            text: this.dic_config["Y軸右側名稱"]
+            text: this.dic_meta["Y軸右側名稱"]
           }
         }
       ]
