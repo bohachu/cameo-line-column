@@ -1,6 +1,6 @@
+import ApexCharts from "https://jspm.dev/apexcharts";
 import dfjs from "https://jspm.dev/dataframe-js";
 var DataFrame = dfjs.DataFrame;
-import ApexCharts from "https://jspm.dev/apexcharts";
 
 class CameoLineColumn extends HTMLElement {
   connectedCallback() {
@@ -24,7 +24,7 @@ class CameoLineColumn extends HTMLElement {
   }
   async load_meta_csv() {
     let df = await DataFrame.fromCSV(
-      `${window.location.href}/data/cameo_line_column_meta.csv`
+      `${window.location.href}${this.getAttribute("src")}`
     );
     let ary = df.transpose().toArray();
     let ary_keys = ary[0];
@@ -34,7 +34,7 @@ class CameoLineColumn extends HTMLElement {
   }
   async load_data_csv() {
     let df = await DataFrame.fromCSV(
-      `${window.location.href}/${this.dic_meta["資料檔案"]}`
+      `${window.location.href}${this.dic_meta["資料檔案"]}`
     );
     df = df.transpose();
     let ary = df.toArray();

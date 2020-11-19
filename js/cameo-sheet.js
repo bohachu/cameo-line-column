@@ -1,14 +1,15 @@
+import dfjs from "https://jspm.dev/dataframe-js";
 import { load_js, load_css } from "./cameo_load.js";
 load_css("https://bossanova.uk/jsuites/v3/jsuites.css");
 load_css("https://bossanova.uk/jexcel/v4/jexcel.css");
 load_js("https://bossanova.uk/jsuites/v3/jsuites.js");
 load_js("https://bossanova.uk/jexcel/v4/jexcel.js", define_tag);
-
+var DataFrame = dfjs.DataFrame;
 class CameoSheet extends HTMLElement {
   connectedCallback() {
     this.str_random_id = "id_" + Math.random().toString(36).substr(2, 9);
     this.innerHTML = `
-      <div id="my-spreadsheet" id="${this.str_random_id}"></div>
+      <div id="${this.str_random_id}"></div>
     `;
     this.render();
   }
@@ -22,28 +23,20 @@ class CameoSheet extends HTMLElement {
     // this.dic_meta = {};
     // ary_keys.forEach((str_key, i) => (this.dic_meta[str_key] = ary_values[i]));
   }
-  async load_data_csv() {
-    // let df = await DataFrame.fromCSV(
-    //   `${window.location.href}/${this.dic_meta["資料檔案"]}`
-    // );
-    // df = df.transpose();
-    // let ary = df.toArray();
-    // return ary;
-  }
   async render() {
-    let data = [
-      ["Mazda", 2001, 2000],
-      ["Pegeout", 2010, 5000],
-      ["Honda Fit", 2009, 3000],
-      ["Honda CRV", 2010, 6000]
-    ];
-    jexcel(document.getElementById("my-spreadsheet"), {
-      data: data,
-      columns: [
-        { title: "Model", width: 300 },
-        { title: "Price", width: 80 },
-        { title: "Model", width: 100 }
-      ]
+    let df = await DataFrame.fromCSV(
+      `${window.location.href}${this.getAttribute("src")}`
+    );
+    let ary = df.toArray();
+    let ary_head = [];
+    let i;
+    let ary_columns = df.listColumns();
+    for (i = 0; i < ary_columns.length; i++) {
+      ary_head.push({ title: ary_columns[i], width: 100 });
+    }
+    jexcel(document.getElementById(this.str_random_id), {
+      data: ary,
+      columns: ary_head
     });
   }
 }
