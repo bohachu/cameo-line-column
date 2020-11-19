@@ -1,38 +1,17 @@
 <meta charset="utf-8" />
-<script defer src="js/cameo-line-column.js" type="module"></script>
+<script src="js/cameo-line-column.js" type="module"></script>
 <cameo-line-column src="data/cameo_line_column_meta.csv"></cameo-line-column>
-<script src="https://bossanova.uk/jexcel/v4/jexcel.js"></script>
+
+<!-- <link
+  rel="stylesheet"
+  href="https://bossanova.uk/jsuites/v2/jsuites.css"
+  type="text/css"
+/>
 <link
   rel="stylesheet"
   href="https://bossanova.uk/jexcel/v4/jexcel.css"
   type="text/css"
-/>
-
-<script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
-<link
-  rel="stylesheet"
-  href="https://bossanova.uk/jsuites/v3/jsuites.css"
-  type="text/css"
-/>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+/> -->
 
 <div id="my-spreadsheet"></div>
-
-<script>
-  data = [
-    ["Mazda", 2001, 2000],
-    ["Pegeout", 2010, 5000],
-    ["Honda Fit", 2009, 3000],
-    ["Honda CRV", 2010, 6000]
-  ];
-
-  jexcel(document.getElementById("my-spreadsheet"), {
-    data: data,
-    columns: [
-      { title: "Model", width: 300 },
-      { title: "Price", width: 80 },
-      { title: "Model", width: 100 }
-    ]
-  });
-</script>
+<script src="js/cameo-sheet.js" type="module"></script>
