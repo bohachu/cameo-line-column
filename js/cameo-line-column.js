@@ -1,6 +1,7 @@
 import dfjs from "https://jspm.dev/dataframe-js";
 var DataFrame = dfjs.DataFrame;
 import ApexCharts from "https://jspm.dev/apexcharts";
+
 class CameoLineColumn extends HTMLElement {
   connectedCallback() {
     this.str_random_id = "id_" + Math.random().toString(36).substr(2, 9);
