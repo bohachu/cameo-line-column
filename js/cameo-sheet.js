@@ -1,9 +1,12 @@
 import dfjs from "https://jspm.dev/dataframe-js";
-import { load_js, load_css } from "./cameo_load.js";
+import { load_js_async, load_css } from "./cameo_load.js";
 load_css("https://bossanova.uk/jsuites/v3/jsuites.css");
 load_css("https://bossanova.uk/jexcel/v4/jexcel.css");
-load_js("https://bossanova.uk/jsuites/v3/jsuites.js");
-load_js("https://bossanova.uk/jexcel/v4/jexcel.js", define_tag);
+(async () => {
+  await load_js_async("https://bossanova.uk/jsuites/v3/jsuites.js");
+  await load_js_async("https://bossanova.uk/jexcel/v4/jexcel.js");
+})();
+
 var DataFrame = dfjs.DataFrame;
 class CameoSheet extends HTMLElement {
   connectedCallback() {
@@ -40,6 +43,4 @@ class CameoSheet extends HTMLElement {
     });
   }
 }
-function define_tag() {
-  customElements.define("cameo-sheet", CameoSheet);
-}
+customElements.define("cameo-sheet", CameoSheet);
